@@ -1020,7 +1020,7 @@
             <div class="show-date">11 Apr 2026</div>
             <div>
               <div class="show-venue">Venom</div>
-              <div class="show-location">TBC</div>
+              <div class="show-location">Singapore</div>
             </div>
             <span class="show-badge">Upcoming</span>
           </div>
@@ -1051,6 +1051,7 @@
         </div>
       </div>
 
+
       <hr class="section-divider" style="margin: 0 0 40px;">
 
       <!-- CALENDAR SECTION -->
@@ -1058,9 +1059,69 @@
         <div class="block-header">
           <h2 class="block-title">Calendar</h2>
         </div>
+
+        <!-- Event list with Add to Calendar links -->
+        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:24px;">
+
+          <!-- Upcoming -->
+          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
+              <div style="text-align:center; background:var(--green); color:#000; border-radius:8px; padding:6px 12px; flex-shrink:0;">
+                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Apr</div>
+                <div style="font-size:22px; font-weight:700; line-height:1;">11</div>
+                <div style="font-size:10px; font-weight:600;">2026</div>
+              </div>
+              <div style="min-width:0;">
+                <div style="font-size:15px; font-weight:700;">Venom</div>
+                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Singapore</div>
+              </div>
+            </div>
+            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lefthand+Drive+%40+Venom&dates=20260411T000000/20260411T235900&details=Lefthand+Drive+live+at+Venom&location=Singapore"
+               target="_blank" rel="noopener noreferrer"
+               style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:9999px; background:var(--mid); color:var(--white); text-decoration:none; font-size:12px; font-weight:700; white-space:nowrap; border:1px solid var(--border); flex-shrink:0; min-height:36px;"
+               aria-label="Add Venom show to Google Calendar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 3 3 3.9 3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+              Add to Calendar
+            </a>
+          </div>
+
+          <!-- Past: Phil Studio -->
+          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; opacity:0.65;">
+            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
+              <div style="text-align:center; background:var(--mid); color:var(--silver); border-radius:8px; padding:6px 12px; flex-shrink:0;">
+                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Jun</div>
+                <div style="font-size:22px; font-weight:700; line-height:1;">28</div>
+                <div style="font-size:10px; font-weight:600;">2025</div>
+              </div>
+              <div style="min-width:0;">
+                <div style="font-size:15px; font-weight:700;">Phil Studio</div>
+                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Singapore</div>
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; flex-shrink:0;">Past</span>
+          </div>
+
+          <!-- Past: Julian's Friends -->
+          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; opacity:0.65;">
+            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
+              <div style="text-align:center; background:var(--mid); color:var(--silver); border-radius:8px; padding:6px 12px; flex-shrink:0;">
+                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Oct</div>
+                <div style="font-size:22px; font-weight:700; line-height:1;">—</div>
+                <div style="font-size:10px; font-weight:600;">2025</div>
+              </div>
+              <div style="min-width:0;">
+                <div style="font-size:15px; font-weight:700;">Julian's Friends</div>
+                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Cambodia</div>
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; flex-shrink:0;">Past</span>
+          </div>
+
+        </div>
+
         <div class="calendar-embed">
           <iframe
-            src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia%2FTaipei"
+            src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia%2FSingapore"
             title="Lefthand Drive Event Calendar"
             loading="lazy"
             aria-label="Google Calendar"
