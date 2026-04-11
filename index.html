@@ -888,9 +888,9 @@
           </a>
         </li>
         <li>
-          <a href="#calendar" aria-label="Calendar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 3 3 3.9 3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-            Calendar
+          <a href="#instagram" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.6 0-71.7-32.1-71.7-71.7s32.1-71.7 71.7-71.7 71.7 32.1 71.7 71.7-32.1 71.7-71.7 71.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+            Instagram
           </a>
         </li>
         <li>
@@ -1013,7 +1013,6 @@
       <div class="block" id="shows">
         <div class="block-header">
           <h2 class="block-title">Upcoming Shows</h2>
-          <a href="#calendar" class="block-link">See calendar</a>
         </div>
         <div class="shows-list" role="list">
           <div class="show-item" role="listitem">
@@ -1054,78 +1053,27 @@
 
       <hr class="section-divider" style="margin: 0 0 40px;">
 
-      <!-- CALENDAR SECTION -->
-      <div class="block" id="calendar">
+      <!-- INSTAGRAM SECTION -->
+      <div class="block" id="instagram">
         <div class="block-header">
-          <h2 class="block-title">Calendar</h2>
+          <h2 class="block-title">Instagram</h2>
+          <a href="https://www.instagram.com/lefthanddrive_sg?igsh=eTY1NHY3NWtiNjg1" target="_blank" rel="noopener noreferrer" class="block-link">@lefthanddrive_sg</a>
         </div>
 
-        <!-- Event list with Add to Calendar links -->
-        <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:24px;">
-
-          <!-- Upcoming -->
-          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
-              <div style="text-align:center; background:var(--green); color:#000; border-radius:8px; padding:6px 12px; flex-shrink:0;">
-                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Apr</div>
-                <div style="font-size:22px; font-weight:700; line-height:1;">11</div>
-                <div style="font-size:10px; font-weight:600;">2026</div>
-              </div>
-              <div style="min-width:0;">
-                <div style="font-size:15px; font-weight:700;">Venom</div>
-                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Singapore</div>
-              </div>
-            </div>
-            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Lefthand+Drive+%40+Venom&dates=20260411T000000/20260411T235900&details=Lefthand+Drive+live+at+Venom&location=Singapore"
+        <!-- Behold / third-party feed embed goes here -->
+        <!-- TO ACTIVATE: sign up at behold.so, connect your IG account, copy the embed snippet and paste it inside this div -->
+        <div id="ig-feed-container" style="min-height:300px; background:var(--surface); border-radius:8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:40px 24px; text-align:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 448 512" fill="var(--silver)" aria-hidden="true"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.6 0-71.7-32.1-71.7-71.7s32.1-71.7 71.7-71.7 71.7 32.1 71.7 71.7-32.1 71.7-71.7 71.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+          <div>
+            <div style="font-size:16px; font-weight:700; margin-bottom:6px;">Follow us on Instagram</div>
+            <div style="font-size:13px; color:var(--silver); margin-bottom:20px;">@lefthanddrive_sg — behind the scenes, show footage &amp; more</div>
+            <a href="https://www.instagram.com/lefthanddrive_sg?igsh=eTY1NHY3NWtiNjg1"
                target="_blank" rel="noopener noreferrer"
-               style="display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:9999px; background:var(--mid); color:var(--white); text-decoration:none; font-size:12px; font-weight:700; white-space:nowrap; border:1px solid var(--border); flex-shrink:0; min-height:36px;"
-               aria-label="Add Venom show to Google Calendar">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 3 3 3.9 3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-              Add to Calendar
+               style="display:inline-flex; align-items:center; gap:8px; padding:10px 24px; border-radius:9999px; background:var(--green); color:#000; text-decoration:none; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:1.4px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.6 0-71.7-32.1-71.7-71.7s32.1-71.7 71.7-71.7 71.7 32.1 71.7 71.7-32.1 71.7-71.7 71.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+              Open Instagram
             </a>
           </div>
-
-          <!-- Past: Phil Studio -->
-          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; opacity:0.65;">
-            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
-              <div style="text-align:center; background:var(--mid); color:var(--silver); border-radius:8px; padding:6px 12px; flex-shrink:0;">
-                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Jun</div>
-                <div style="font-size:22px; font-weight:700; line-height:1;">28</div>
-                <div style="font-size:10px; font-weight:600;">2025</div>
-              </div>
-              <div style="min-width:0;">
-                <div style="font-size:15px; font-weight:700;">Phil Studio</div>
-                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Singapore</div>
-              </div>
-            </div>
-            <span style="font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; flex-shrink:0;">Past</span>
-          </div>
-
-          <!-- Past: Julian's Friends -->
-          <div style="background:var(--surface); border-radius:8px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; opacity:0.65;">
-            <div style="display:flex; align-items:center; gap:16px; min-width:0;">
-              <div style="text-align:center; background:var(--mid); color:var(--silver); border-radius:8px; padding:6px 12px; flex-shrink:0;">
-                <div style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Oct</div>
-                <div style="font-size:22px; font-weight:700; line-height:1;">—</div>
-                <div style="font-size:10px; font-weight:600;">2025</div>
-              </div>
-              <div style="min-width:0;">
-                <div style="font-size:15px; font-weight:700;">Julian's Friends</div>
-                <div style="font-size:12px; color:var(--silver); margin-top:2px;">Cambodia</div>
-              </div>
-            </div>
-            <span style="font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; flex-shrink:0;">Past</span>
-          </div>
-
-        </div>
-
-        <div class="calendar-embed">
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia%2FSingapore"
-            title="Lefthand Drive Event Calendar"
-            loading="lazy"
-            aria-label="Google Calendar"
-          ></iframe>
         </div>
       </div>
 
