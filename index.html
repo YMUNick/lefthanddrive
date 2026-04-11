@@ -4,238 +4,1190 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lefthand Drive</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    :root {
+      --bg:           #121212;
+      --surface:      #181818;
+      --mid:          #1f1f1f;
+      --card:         #252525;
+      --card-alt:     #272727;
+      --green:        #1ed760;
+      --green-border: #1db954;
+      --white:        #ffffff;
+      --silver:       #b3b3b3;
+      --near-white:   #cbcbcb;
+      --muted:        #7c7c7c;
+      --neg:          #f3727f;
+      --warn:         #ffa42b;
+      --info:         #539df5;
+      --border:       #4d4d4d;
+      --light-border: #7c7c7c;
+      --shadow-heavy: rgba(0,0,0,0.5) 0px 8px 24px;
+      --shadow-med:   rgba(0,0,0,0.3) 0px 8px 8px;
+      --font: 'Inter', 'Helvetica Neue', helvetica, arial, sans-serif;
+      --sidebar-w: 240px;
+      --nowplay-h: 72px;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background-color: #121212;
-      color: #f0f0f0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    header {
-      background-color: #000000;
-      padding: 20px;
+    /* ── APP SHELL ─────────────────────────────── */
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-rows: 1fr var(--nowplay-h);
+      grid-template-areas:
+        "sidebar main"
+        "nowplay nowplay";
+      height: 100vh;
+    }
+
+    /* ── SIDEBAR ───────────────────────────────── */
+    .sidebar {
+      grid-area: sidebar;
+      background: #000;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      padding: 24px 0 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 24px 28px;
+      text-decoration: none;
+    }
+
+    .sidebar-logo svg { flex-shrink: 0; }
+
+    .sidebar-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .sidebar-logo-text span {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+
+    .sidebar-nav { list-style: none; padding: 0 8px; margin-bottom: 24px; }
+
+    .sidebar-nav li a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--silver);
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .sidebar-nav li a:hover,
+    .sidebar-nav li a.active {
+      color: var(--white);
+    }
+
+    .sidebar-nav li a.active { background: var(--mid); }
+
+    .sidebar-nav li a svg { flex-shrink: 0; opacity: 0.7; }
+    .sidebar-nav li a.active svg,
+    .sidebar-nav li a:hover svg { opacity: 1; }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 8px 24px 16px;
+    }
+
+    .sidebar-section-label {
+      padding: 0 24px 8px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+
+    /* ── MAIN ──────────────────────────────────── */
+    .main {
+      grid-area: main;
+      overflow-y: auto;
+      background: var(--bg);
+      scroll-behavior: smooth;
+    }
+
+    /* ── TOPBAR ────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      border-bottom: 3px solid #e50914;
+      padding: 16px 32px;
+      background: rgba(18,18,18,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      gap: 16px;
     }
 
-    header img {
-      max-height: 120px;
-      width: auto;
-      height: auto;
-      max-width: 100%;
-      background: none;
-      filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 0 black);
-    }
+    .topbar-nav-btns { display: flex; gap: 8px; }
 
-    header h1 {
-      font-size: 2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #f0f0f0;
-      margin: 10px;
-      flex: 1;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
+    .btn-circle-nav {
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      gap: 10px;
-      flex: 2;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      border: none;
+      cursor: pointer;
+      color: var(--white);
     }
 
-    nav a {
-      color: #e50914;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1rem;
+    .topbar-search {
+      flex: 1;
+      max-width: 360px;
+      position: relative;
     }
 
-    nav a:hover {
-      text-decoration: underline;
+    .topbar-search svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
     }
 
-    section {
-      padding: 40px 20px;
+    .search-input {
       width: 100%;
-      max-width: 1000px;
-      margin: auto;
-      border-bottom: 1px solid #333;
-      transition: transform 0.3s ease;
+      background: var(--mid);
+      color: var(--white);
+      border: none;
+      padding: 10px 16px 10px 44px;
+      border-radius: 500px;
+      font-family: var(--font);
+      font-size: 14px;
+      outline: none;
+      box-shadow: rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+      transition: box-shadow 0.15s;
     }
 
-    section:hover {
-      transform: scale(1.01);
-    }
+    .search-input:focus { box-shadow: 0 0 0 2px var(--white); }
+    .search-input::placeholder { color: var(--muted); }
 
-    section h2 {
-      color: #e50914;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
+    .topbar-actions { display: flex; gap: 8px; align-items: center; }
 
-    a {
-      color: #1db954;
+    .btn-pill-sm {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 14px;
+      font-weight: 700;
       text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.1s, filter 0.1s;
+      white-space: nowrap;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .btn-pill-sm:active { transform: scale(0.96); }
+
+    .btn-outline-sm {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--light-border);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
     }
 
-    iframe {
-      max-width: 100%;
+    .btn-outline-sm:hover { border-color: var(--white); }
+
+    /* ── HERO ──────────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 48px 32px 40px;
+      background: linear-gradient(180deg, #2a4a3a 0%, #1a2e25 50%, var(--bg) 100%);
+      display: flex;
+      align-items: flex-end;
+      gap: 24px;
+      min-height: 300px;
     }
 
-    footer {
+    .hero-art {
+      width: 192px;
+      height: 192px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .hero-meta { flex: 1; }
+
+    .hero-type {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+
+    .hero-title {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--near-white);
+      margin-bottom: 16px;
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    .hero-stats {
+      font-size: 14px;
+      color: var(--silver);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .hero-stats span { color: var(--white); font-weight: 700; }
+
+    /* ── CONTENT AREA ──────────────────────────── */
+    .content { padding: 0 32px 48px; }
+
+    .content-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0;
+    }
+
+    .btn-play-lg {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      box-shadow: var(--shadow-med);
+      transition: transform 0.1s, filter 0.1s;
+    }
+
+    .btn-play-lg:hover { transform: scale(1.06); filter: brightness(1.07); }
+    .btn-play-lg:active { transform: scale(0.96); }
+
+    .btn-follow {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 20px;
+      border-radius: 9999px;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--light-border);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+
+    .btn-follow:hover { border-color: var(--white); }
+    .btn-follow:active { transform: scale(0.96); }
+
+    /* ── SECTION BLOCKS ────────────────────────── */
+    .block { margin-bottom: 40px; }
+
+    .block-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .block-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .block-link {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--silver);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.15s;
+    }
+
+    .block-link:hover { color: var(--white); text-decoration: underline; }
+
+    /* ── CARDS GRID ────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .card:hover { background: var(--card); }
+
+    .card-art {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-med);
+    }
+
+    .card-art-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      box-shadow: var(--shadow-med);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: var(--silver);
+      line-height: 1.4;
+    }
+
+    /* ── TRACK LIST ────────────────────────────── */
+    .track-list { width: 100%; border-collapse: collapse; }
+
+    .track-list thead tr {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .track-list th {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 16px 10px;
+      text-align: left;
+    }
+
+    .track-list th:last-child { text-align: right; }
+
+    .track-list tbody tr {
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+
+    .track-list tbody tr:hover { background: rgba(255,255,255,0.06); }
+
+    .track-list td {
+      padding: 10px 16px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .track-num {
+      font-size: 16px;
+      color: var(--silver);
+      width: 40px;
       text-align: center;
-      padding: 20px;
-      background-color: #1e1e1e;
-      border-top: 3px solid #e50914;
-      font-size: 0.9rem;
     }
 
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        text-align: center;
-      }
+    .track-title { font-weight: 400; }
+    .track-title strong { font-weight: 700; display: block; margin-bottom: 2px; }
+    .track-meta { font-size: 12px; color: var(--silver); }
+    .track-duration { color: var(--silver); text-align: right; white-space: nowrap; }
 
-      header h1 {
-        font-size: 1.5rem;
-      }
+    /* ── SHOWS TABLE ───────────────────────────── */
+    .shows-list { display: flex; flex-direction: column; gap: 2px; }
 
-      nav {
-        justify-content: center;
-        flex-direction: row;
-      }
+    .show-item {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 16px;
+      border-radius: 6px;
+      transition: background 0.15s;
     }
+
+    .show-item:hover { background: rgba(255,255,255,0.06); }
+
+    .show-date {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--silver);
+    }
+
+    .show-venue { font-size: 14px; font-weight: 700; }
+
+    .show-location { font-size: 12px; color: var(--silver); margin-top: 2px; }
+
+    .show-badge {
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: capitalize;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: transparent;
+      border: 1px solid var(--light-border);
+      color: var(--white);
+    }
+
+    /* ── GALLERY CAROUSEL ──────────────────────── */
+    .gallery-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+
+    .gallery-img {
+      height: 200px;
+      width: auto;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      cursor: zoom-in;
+      transition: filter 0.15s;
+    }
+
+    .gallery-img:hover { filter: brightness(1.1); }
+
+    /* ── CONTACT ───────────────────────────────── */
+    .contact-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      background: var(--mid);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .social-btn:hover { background: var(--card); }
+    .social-btn:active { transform: scale(0.96); }
+
+    /* ── NOW PLAYING BAR ───────────────────────── */
+    .nowplay {
+      grid-area: nowplay;
+      background: #181818;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 24px;
+      gap: 16px;
+    }
+
+    .nowplay-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .nowplay-art {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .nowplay-info { min-width: 0; }
+
+    .nowplay-title {
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nowplay-sub {
+      font-size: 12px;
+      color: var(--silver);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nowplay-center { display: flex; align-items: center; justify-content: center; gap: 16px; }
+
+    .btn-play-sm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--white);
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.1s;
+    }
+
+    .btn-play-sm:hover { transform: scale(1.06); }
+
+    .btn-ctrl {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--silver);
+      border-radius: 50%;
+      transition: color 0.15s;
+    }
+
+    .btn-ctrl:hover { color: var(--white); }
+
+    .nowplay-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .volume-bar {
+      width: 80px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 9999px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .volume-fill {
+      height: 100%;
+      width: 65%;
+      background: var(--white);
+      border-radius: 9999px;
+      transition: background 0.15s;
+    }
+
+    .volume-bar:hover .volume-fill { background: var(--green); }
+
+    /* ── MOBILE NAV (bottom) ───────────────────── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #181818;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      z-index: 200;
+      padding: 8px 0 env(safe-area-inset-bottom, 0px);
+    }
+
+    .mobile-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .mobile-nav ul li a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--silver);
+      text-decoration: none;
+      padding: 6px 8px;
+      min-width: 44px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-nav ul li a.active { color: var(--white); }
+
+    /* ── LIGHTBOX ──────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+      box-shadow: var(--shadow-heavy);
+    }
+
+    /* ── DIVIDERS ──────────────────────────────── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 0 32px;
+    }
+
+    /* ── EMBED ─────────────────────────────────── */
+    .video-embed {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--mid);
+    }
+
+    .video-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .calendar-embed {
+      width: 100%;
+      height: 480px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--mid);
+    }
+
+    .calendar-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────── */
+    @media (max-width: 896px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "main";
+        height: auto;
+        min-height: 100dvh;
+      }
+
+      .sidebar { display: none; }
+
+      .nowplay { display: none; }
+
+      .main { overflow-y: unset; padding-bottom: 72px; }
+
+      .mobile-nav { display: block; }
+
+      .hero { flex-direction: column; padding: 32px 16px 28px; min-height: auto; }
+
+      .hero-art { width: 140px; height: 140px; }
+
+      .hero-title { font-size: 32px; }
+
+      .content { padding: 0 16px 48px; }
+
+      .topbar { padding: 12px 16px; }
+
+      .topbar-search { max-width: none; flex: 1; }
+
+      .topbar-nav-btns { display: none; }
+
+      .section-divider { margin: 0 16px; }
+
+      .cards-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+
+      .show-item { grid-template-columns: 1fr auto; gap: 12px; }
+
+      .show-date { display: none; }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title { font-size: 26px; }
+      .block-title { font-size: 20px; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    }
+
+    /* ── SCROLL ANCHOR OFFSET ──────────────────── */
+    [id] { scroll-margin-top: 72px; }
   </style>
-<script>
-  // Lightbox viewer
-  document.addEventListener("DOMContentLoaded", () => {
-    const gallery = document.querySelector('#gallery div');
-    const overlay = document.createElement('div');
-    const img = document.createElement('img');
-    Object.assign(overlay.style, {
-      position: 'fixed', top: 0, left: 0,
-      width: '100%', height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.85)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      zIndex: 9999, cursor: 'zoom-out', display: 'none'
-    });
-    Object.assign(img.style, {
-      maxWidth: '90%', maxHeight: '90%', borderRadius: '8px', boxShadow: '0 0 30px black'
-    });
-    overlay.appendChild(img);
-    document.body.appendChild(overlay);
-
-    overlay.onclick = () => overlay.style.display = 'none';
-    gallery.querySelectorAll('img').forEach(image => {
-      image.style.cursor = 'zoom-in';
-      image.onclick = () => {
-        img.src = image.src;
-        overlay.style.display = 'flex';
-      }
-    });
-  });
-</script>
 </head>
 <body>
-  <header>
-    <img src="lefthanddrive.svg" alt="Lefthand Drive Logo">
-    <h1>Lefthand Drive</h1>
-    <nav><a href="band.html" target="_blank">Members</a>
-      <a href="#about">About</a>
-      <a href="#music">Music</a>
-      <a href="#shows">Shows</a>
-      <a href="#calendar">Calendar</a>
-      <a href="#contact">Contact</a>
+
+<div class="app">
+
+  <!-- ── SIDEBAR ─────────────────────────────── -->
+  <aside class="sidebar" role="navigation" aria-label="Main navigation">
+    <a class="sidebar-logo" href="#">
+      <img src="lefthanddrive.svg" alt="Lefthand Drive" width="40" height="40" style="border-radius:4px;">
+      <div class="sidebar-logo-text">
+        Lefthand Drive
+        <span>Rock Band · SG</span>
+      </div>
+    </a>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="#about" class="active" aria-label="About">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm0 5.5c.83 0 1.5.67 1.5 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-1 0v4a.5.5 0 0 1-1 0v-4c0-.83.67-1.5 1.5-1.5z"/></svg>
+            About
+          </a>
+        </li>
+        <li>
+          <a href="#music" aria-label="Music">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+            Music
+          </a>
+        </li>
+        <li>
+          <a href="#shows" aria-label="Shows">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+            Shows
+          </a>
+        </li>
+        <li>
+          <a href="#calendar" aria-label="Calendar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5C3.89 3 3 3.9 3 5v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            Calendar
+          </a>
+        </li>
+        <li>
+          <a href="#gallery" aria-label="Gallery">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            Gallery
+          </a>
+        </li>
+        <li>
+          <a href="#contact" aria-label="Contact">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            Contact
+          </a>
+        </li>
+      </ul>
     </nav>
-  </header>
 
-  <section id="about">
-    <h2>About Us</h2>
-    <p>Introducing Lefthand Drive, a dynamic five-piece rock ensemble that transcends borders, weaving together a sonic tapestry fueled by the diverse backgrounds of its international members. From across the globe, Lefthand Drive unites their distinct.</p>
-    <img src="images/group.jpg" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-  </section>
+    <hr class="sidebar-divider">
+    <div class="sidebar-section-label">Members</div>
 
-  <section id="music">
-    <h2>Music</h2>
-    <iframe width="100%" height="315" src="https://www.youtube.com/embed/LCzkbeM5O3M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </section>
-
-  <section id="shows">
-    <h2>Upcoming Shows</h2>
-    <p>June 28, 2025 - Phil Studio, Singapore</p>
-    <p>TBD October, 2025 - Julian's Friends, Cambodia</p>
-  </section>
-
-  <section id="calendar">
-    <h2>Calendar</h2>
-    <iframe src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia%2FTaipei" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
-  </section>
-  
-  <section id="gallery">
-  <h2>Gallery</h2>
-  <div style="position: relative; overflow: hidden;">
-    <button id="prevBtn" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; font-size: 2rem; z-index: 10; cursor: pointer; padding: 0 10px;">&#8249;</button>
-    <button id="nextBtn" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; font-size: 2rem; z-index: 10; cursor: pointer; padding: 0 10px;">&#8250;</button>
-    <div id="carousel" style="display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 15px; padding: 10px 40px;">
-      <img src="images/Nick.jpg" alt="Gallery Image 1" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <img src="images/CY.jpg" alt="Gallery Image 2" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <img src="images/Vijay.jpg" alt="Gallery Image 3" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <img src="images/Julian.jpg" alt="Gallery Image 3" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <img src="images/wei.jpeg" alt="Gallery Image 3" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <img src="images/group.jpg" alt="Gallery Image 3" style="height: 200px; border-radius: 8px; flex: 0 0 auto;">
-      <!-- Add more images as needed -->
-    </div>
-  </div>
-  <script>
-    const carousel = document.getElementById('carousel');
-    document.getElementById('prevBtn').onclick = () => carousel.scrollBy({left: -300, behavior: 'smooth'});
-    document.getElementById('nextBtn').onclick = () => carousel.scrollBy({left: 300, behavior: 'smooth'});
-  </script>
-  <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #888;">Rock Gallery.</p>
-</section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
-      <p>Email us at: <a href="mailto:mrwaitforplayers@gmail.com">mrwaitforplayers@gmail.com</a></p>
-      <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
-        <a href="https://www.instagram.com/lefthanddrive_sg?igsh=eTY1NHY3NWtiNjg1" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="32" height="32" fill="#fff"><path d="M224,202.66A53.34,53.34,0,1,0,277.34,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41c-6.41-24.27-25.2-43.06-49.47-49.47C274.6,104,224,104,224,104s-50.6,0-75.24,8.19c-24.27,6.41-43.06,25.2-49.47,49.47C92,149.4,92,192,92,192s0,42.6,7.29,66.34c6.41,24.27,25.2,43.06,49.47,49.47C173.4,298,224,298,224,298s50.6,0,75.24-8.19c24.27-6.41,43.06-25.2,49.47-49.47C356,234.6,356,192,356,192S356,149.4,348.71,161.66ZM224,272a80,80,0,1,1,80-80A80,80,0,0,1,224,272Zm84-148a12,12,0,1,1,12-12A12,12,0,0,1,308,124Z"/></svg>
-          <p style="margin-top: 8px; color: #ccc;">Instagram</p>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="band.html" target="_blank" aria-label="Meet the Band">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Meet the Band
         </a>
-        <a href="https://www.facebook.com/profile.php?id=61557159800203" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" width="32" height="32" fill="#fff">
-            <path d="M279.14 288l14.22-92.66h-88.91V127.42c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.43 0 225.36 0C141.09 0 89.53 54.42 89.53 153.11V195.3H0v92.66h89.53V512h107.74V288z"/>
-          </svg>
-          <p style="margin-top: 8px; color: #ccc;">Facebook</p>
-        </a>
-        <a href="https://www.youtube.com/@LefthandDrive_SG" target="_blank" style="text-align: center; text-decoration: none; color: inherit;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="32" height="32" fill="#fff">
-            <path d="M549.7 124.1c-6.3-24-25-42.7-49-49C456.5 64 288 64 288 64s-168.5 0-212.7 11.1c-24 6.3-42.7 25-49 49C16 168.3 16 256 16 256s0 87.7 10.3 131.9c6.3 24 25 42.7 49 49C119.5 448 288 448 288 448s168.5 0 212.7-11.1c24-6.3 42.7-25 49-49C560 343.7 560 256 560 256s0-87.7-10.3-131.9zM232 336V176l142 80-142 80z"/>
-          </svg>
-          <p style="margin-top: 8px; color: #ccc;">YouTube</p>
-        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ── MAIN CONTENT ──────────────────────────── -->
+  <main class="main" id="main-content">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="topbar-nav-btns" aria-hidden="true">
+        <button class="btn-circle-nav" aria-label="Back" onclick="history.back()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <button class="btn-circle-nav" aria-label="Forward" onclick="history.forward()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      </div>
+
+      <div class="topbar-search" role="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input class="search-input" type="search" placeholder="Search songs, shows, members…" aria-label="Search">
+      </div>
+
+      <div class="topbar-actions">
+        <a href="band.html" target="_blank" class="btn-pill-sm btn-outline-sm" aria-label="Meet the band members">Members</a>
       </div>
     </div>
-  </section>
 
-  <footer>
-    <p>&copy; 2025 Lefthand Drive. All rights reserved.</p>
+    <!-- Hero -->
+    <section class="hero" id="about" aria-labelledby="hero-title">
+      <img src="images/group.jpg" alt="Lefthand Drive band photo" class="hero-art">
+      <div class="hero-meta">
+        <div class="hero-type">Band</div>
+        <h1 class="hero-title" id="hero-title">Lefthand Drive</h1>
+        <p class="hero-desc">A dynamic five-piece rock ensemble that transcends borders, weaving together a sonic tapestry fueled by the diverse backgrounds of its international members. From across the globe, united by music.</p>
+        <div class="hero-stats">
+          <span>5</span> Members &nbsp;·&nbsp; <span>Singapore</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Bar -->
+    <div class="content">
+      <div class="content-actions">
+        <button class="btn-play-lg" aria-label="Play" onclick="document.getElementById('music').scrollIntoView({behavior:'smooth'})">
+          ▶
+        </button>
+        <button class="btn-follow" aria-label="Follow Lefthand Drive">Follow</button>
+        <a href="band.html" target="_blank" class="btn-follow" style="text-decoration:none;">Members</a>
+      </div>
+
+      <!-- MUSIC SECTION -->
+      <div class="block" id="music">
+        <div class="block-header">
+          <h2 class="block-title">Music</h2>
+        </div>
+        <div class="video-embed">
+          <iframe
+            src="https://www.youtube.com/embed/LCzkbeM5O3M"
+            title="Lefthand Drive — Live Performance"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+
+      <hr class="section-divider" style="margin: 0 0 40px;">
+
+      <!-- SHOWS SECTION -->
+      <div class="block" id="shows">
+        <div class="block-header">
+          <h2 class="block-title">Upcoming Shows</h2>
+          <a href="#calendar" class="block-link">See calendar</a>
+        </div>
+        <div class="shows-list" role="list">
+          <div class="show-item" role="listitem">
+            <div class="show-date">28 Jun 2025</div>
+            <div>
+              <div class="show-venue">Phil Studio</div>
+              <div class="show-location">Singapore</div>
+            </div>
+            <span class="show-badge">Upcoming</span>
+          </div>
+          <div class="show-item" role="listitem">
+            <div class="show-date">TBD Oct 2025</div>
+            <div>
+              <div class="show-venue">Julian's Friends</div>
+              <div class="show-location">Cambodia</div>
+            </div>
+            <span class="show-badge">TBD</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="section-divider" style="margin: 0 0 40px;">
+
+      <!-- CALENDAR SECTION -->
+      <div class="block" id="calendar">
+        <div class="block-header">
+          <h2 class="block-title">Calendar</h2>
+        </div>
+        <div class="calendar-embed">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=your_calendar_id&ctz=Asia%2FTaipei"
+            title="Lefthand Drive Event Calendar"
+            loading="lazy"
+            aria-label="Google Calendar"
+          ></iframe>
+        </div>
+      </div>
+
+      <hr class="section-divider" style="margin: 0 0 40px;">
+
+      <!-- GALLERY SECTION -->
+      <div class="block" id="gallery">
+        <div class="block-header">
+          <h2 class="block-title">Gallery</h2>
+        </div>
+        <div class="gallery-scroll" role="list" aria-label="Photo gallery">
+          <img src="images/group.jpg"  alt="Lefthand Drive – band shot"  class="gallery-img" role="listitem" tabindex="0">
+          <img src="images/Nick.jpg"   alt="Nick – Vocalist"             class="gallery-img" role="listitem" tabindex="0">
+          <img src="images/CY.jpg"     alt="CY – Lead Guitar"            class="gallery-img" role="listitem" tabindex="0">
+          <img src="images/Vijay.jpg"  alt="Vijay – Drums"               class="gallery-img" role="listitem" tabindex="0">
+          <img src="images/Julian.jpg" alt="Julian – Rhythm Guitar"      class="gallery-img" role="listitem" tabindex="0">
+          <img src="images/wei.jpeg"   alt="Wei Liang – Bass"            class="gallery-img" role="listitem" tabindex="0">
+        </div>
+      </div>
+
+      <hr class="section-divider" style="margin: 0 0 40px;">
+
+      <!-- MEMBERS PREVIEW CARDS -->
+      <div class="block">
+        <div class="block-header">
+          <h2 class="block-title">Members</h2>
+          <a href="band.html" target="_blank" class="block-link">View all</a>
+        </div>
+        <div class="cards-grid">
+          <a href="band.html" target="_blank" class="card" aria-label="Nick – Vocalist">
+            <img src="images/Nick.jpg" alt="Nick" class="card-art">
+            <div class="card-title">Nick</div>
+            <div class="card-sub">Vocalist</div>
+          </a>
+          <a href="band.html" target="_blank" class="card" aria-label="CY – Lead Guitar">
+            <img src="images/CY.jpg" alt="CY" class="card-art">
+            <div class="card-title">CY</div>
+            <div class="card-sub">Lead Guitar &amp; Rhythm Guitar</div>
+          </a>
+          <a href="band.html" target="_blank" class="card" aria-label="Julian – Rhythm Guitar">
+            <img src="images/Julian.jpg" alt="Julian" class="card-art">
+            <div class="card-title">Julian</div>
+            <div class="card-sub">Lead Guitar &amp; Rhythm Guitar</div>
+          </a>
+          <a href="band.html" target="_blank" class="card" aria-label="Wei Liang – Bassist">
+            <img src="images/wei.jpeg" alt="Wei Liang" class="card-art">
+            <div class="card-title">Wei Liang</div>
+            <div class="card-sub">Bassist</div>
+          </a>
+          <a href="band.html" target="_blank" class="card" aria-label="Vijay – Drummer">
+            <img src="images/Vijay.jpg" alt="Vijay" class="card-art">
+            <div class="card-title">Vijay</div>
+            <div class="card-sub">Drummer</div>
+          </a>
+        </div>
+      </div>
+
+      <hr class="section-divider" style="margin: 0 0 40px;">
+
+      <!-- CONTACT SECTION -->
+      <div class="block" id="contact">
+        <div class="block-header">
+          <h2 class="block-title">Contact</h2>
+        </div>
+        <p style="color:var(--silver); margin-bottom:20px;">
+          Email: <a href="mailto:mrwaitforplayers@gmail.com" style="color:var(--white); font-weight:700; text-decoration:underline;">mrwaitforplayers@gmail.com</a>
+        </p>
+        <div class="contact-grid" role="list">
+          <a href="https://www.instagram.com/lefthanddrive_sg?igsh=eTY1NHY3NWtiNjg1" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Lefthand Drive on Instagram" role="listitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.8 224.1 370.8 339 319.5 339 255.9 287.7 141 224.1 141zm0 186.6c-39.6 0-71.7-32.1-71.7-71.7s32.1-71.7 71.7-71.7 71.7 32.1 71.7 71.7-32.1 71.7-71.7 71.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61557159800203" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Lefthand Drive on Facebook" role="listitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 320 512" fill="currentColor" aria-hidden="true"><path d="M279.14 288l14.22-92.66h-88.91V127.42c0-25.35 12.42-50.06 52.24-50.06H293V6.26S259.43 0 225.36 0C141.09 0 89.53 54.42 89.53 153.11V195.3H0v92.66h89.53V512h107.74V288z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.youtube.com/@LefthandDrive_SG" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Lefthand Drive on YouTube" role="listitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 576 512" fill="currentColor" aria-hidden="true"><path d="M549.7 124.1c-6.3-24-25-42.7-49-49C456.5 64 288 64 288 64s-168.5 0-212.7 11.1c-24 6.3-42.7 25-49 49C16 168.3 16 256 16 256s0 87.7 10.3 131.9c6.3 24 25 42.7 49 49C119.5 448 288 448 288 448s168.5 0 212.7-11.1c24-6.3 42.7-25 49-49C560 343.7 560 256 560 256s0-87.7-10.3-131.9zM232 336V176l142 80-142 80z"/></svg>
+            YouTube
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer style="padding: 32px 0 16px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 24px;">
+        <p style="font-size:12px; color:var(--muted); text-align:center;">&copy; 2025 Lefthand Drive. All rights reserved.</p>
+      </footer>
+    </div><!-- /content -->
+
+  </main>
+
+  <!-- ── NOW PLAYING BAR ──────────────────────── -->
+  <footer class="nowplay" aria-label="Now playing">
+    <div class="nowplay-left">
+      <img src="images/group.jpg" alt="Lefthand Drive" class="nowplay-art">
+      <div class="nowplay-info">
+        <div class="nowplay-title">Lefthand Drive</div>
+        <div class="nowplay-sub">Rock · Singapore</div>
+      </div>
+    </div>
+
+    <div class="nowplay-center">
+      <button class="btn-ctrl" aria-label="Shuffle">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+      </button>
+      <button class="btn-ctrl" aria-label="Previous">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+      </button>
+      <button class="btn-play-sm" aria-label="Play / Pause" onclick="document.getElementById('music').scrollIntoView({behavior:'smooth'})">▶</button>
+      <button class="btn-ctrl" aria-label="Next">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm8.5-6V6H17v12h-2.5z"/></svg>
+      </button>
+      <button class="btn-ctrl" aria-label="Repeat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+      </button>
+    </div>
+
+    <div class="nowplay-right" aria-label="Volume control">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:var(--silver);" aria-hidden="true"><path d="M18.5 12A4.5 4.5 0 0 0 16 7.97V16a4.47 4.47 0 0 0 2.5-4zM5 9v6h4l5 5V4L9 9H5zm7-.17v6.34L9.83 13H7v-2h2.83L12 8.83z"/></svg>
+      <div class="volume-bar" role="slider" aria-label="Volume" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+        <div class="volume-fill"></div>
+      </div>
+    </div>
   </footer>
+
+</div><!-- /app -->
+
+<!-- ── MOBILE BOTTOM NAV ──────────────────────── -->
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <ul>
+    <li>
+      <a href="#about" class="active" aria-label="About">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm0 5.5c.83 0 1.5.67 1.5 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-1 0v4a.5.5 0 0 1-1 0v-4c0-.83.67-1.5 1.5-1.5z"/></svg>
+        About
+      </a>
+    </li>
+    <li>
+      <a href="#music" aria-label="Music">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+        Music
+      </a>
+    </li>
+    <li>
+      <a href="#shows" aria-label="Shows">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+        Shows
+      </a>
+    </li>
+    <li>
+      <a href="#gallery" aria-label="Gallery">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+        Gallery
+      </a>
+    </li>
+    <li>
+      <a href="band.html" target="_blank" aria-label="Band Members">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Members
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- ── LIGHTBOX ────────────────────────────────── -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  document.querySelectorAll('.gallery-img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+      lightbox.focus();
+    });
+    img.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); img.click(); }
+    });
+  });
+
+  lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') lightbox.classList.remove('open');
+  });
+
+  // Active nav highlighting on scroll
+  const sections = document.querySelectorAll('[id]');
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a[href^="#"]');
+  const mobileLinks  = document.querySelectorAll('.mobile-nav a[href^="#"]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        [...sidebarLinks, ...mobileLinks].forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
 </body>
 </html>
