@@ -471,7 +471,7 @@
 
     .show-item {
       display: grid;
-      grid-template-columns: 120px 1fr auto;
+      grid-template-columns: 120px 1fr auto auto;
       align-items: center;
       gap: 24px;
       padding: 14px 16px;
@@ -490,6 +490,17 @@
     .show-venue { font-size: 14px; font-weight: 700; }
 
     .show-location { font-size: 12px; color: var(--silver); margin-top: 2px; }
+
+    .show-promo {
+      display: none;
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .show-promo:has(img) { display: block; }
+    .show-promo img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
 
     .show-badge {
       font-size: 10.5px;
@@ -836,8 +847,9 @@
       .cards-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
 
       /* shows */
-      .show-item { grid-template-columns: 1fr auto; gap: 12px; padding: 12px 8px; }
+      .show-item { grid-template-columns: 1fr auto auto; gap: 12px; padding: 12px 8px; }
       .show-date { display: none; }
+      .show-promo { width: 56px; height: 56px; }
 
       /* gallery */
       .gallery-img { height: 160px; }
@@ -1066,10 +1078,13 @@
         </div>
         <div class="shows-list" role="list">
           <div class="show-item" role="listitem">
-            <div class="show-date">11 Apr 2026</div>
+            <div class="show-date">23 May 2026</div>
             <div>
-              <div class="show-venue">Venom</div>
+              <div class="show-venue">Coastal At Rhythm</div>
               <div class="show-location">Singapore</div>
+            </div>
+            <div class="show-promo">
+              <img src="images/23rd_May.png" alt="Coastal At Rhythm – 23 May 2026 promo">
             </div>
             <span class="show-badge">Upcoming</span>
           </div>
@@ -1082,11 +1097,21 @@
         </div>
         <div class="shows-list" role="list">
           <div class="show-item" role="listitem">
+            <div class="show-date">11 Apr 2026</div>
+            <div>
+              <div class="show-venue">Venom</div>
+              <div class="show-location">Singapore</div>
+            </div>
+            <div class="show-promo"></div>
+            <span class="show-badge" style="color:var(--silver); border-color:var(--border);">Past</span>
+          </div>
+          <div class="show-item" role="listitem">
             <div class="show-date">28 Jun 2025</div>
             <div>
               <div class="show-venue">Phil Studio</div>
               <div class="show-location">Singapore</div>
             </div>
+            <div class="show-promo"></div>
             <span class="show-badge" style="color:var(--silver); border-color:var(--border);">Past</span>
           </div>
           <div class="show-item" role="listitem">
@@ -1095,6 +1120,7 @@
               <div class="show-venue">Julian's Friends</div>
               <div class="show-location">Cambodia</div>
             </div>
+            <div class="show-promo"></div>
             <span class="show-badge" style="color:var(--silver); border-color:var(--border);">Past</span>
           </div>
         </div>
