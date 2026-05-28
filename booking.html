@@ -259,7 +259,7 @@
     }
 
     .cal-time {
-      padding: 12px 8px;
+      padding: 6px 8px;
       font-size: 11px;
       font-weight: 600;
       color: var(--muted);
@@ -271,11 +271,14 @@
       justify-content: flex-end;
     }
 
+    .cal-time.half { border-top-color: rgba(255,255,255,0.02); }
+    .cal-slot.half { border-top-color: rgba(255,255,255,0.02); }
+
     .cal-slot {
       border-top: 1px solid rgba(255,255,255,0.04);
       border-left: 1px solid rgba(255,255,255,0.04);
-      padding: 6px;
-      min-height: 64px;
+      padding: 4px;
+      min-height: 36px;
       cursor: pointer;
       transition: background 0.15s;
       position: relative;
@@ -562,10 +565,10 @@
       .content { padding: 20px 16px 48px; }
       .info-grid { grid-template-columns: 1fr 1fr; }
       .cal-grid { grid-template-columns: 52px repeat(7, 1fr); }
-      .cal-slot { min-height: 52px; padding: 4px; }
-      .cal-booking { padding: 4px 6px; font-size: 10px; }
-      .cal-booking .cal-booking-name { font-size: 10px; }
-      .cal-booking .cal-booking-time { font-size: 9px; }
+      .cal-slot { min-height: 30px; padding: 2px; }
+      .cal-booking { padding: 2px 4px; font-size: 10px; }
+      .cal-booking .cal-booking-name { font-size: 9px; }
+      .cal-booking .cal-booking-time { display: none; }
       .cal-time { font-size: 10px; padding: 8px 4px; }
       .cal-day-header { padding: 8px 2px; font-size: 10px; }
       .cal-day-header .cal-day-date { font-size: 13px; }
@@ -578,7 +581,7 @@
       .info-grid { grid-template-columns: 1fr; }
       .cal-header h2 { font-size: 20px; }
       .cal-grid { grid-template-columns: 44px repeat(7, 1fr); }
-      .cal-slot { min-height: 44px; padding: 2px; }
+      .cal-slot { min-height: 26px; padding: 2px; }
       .cal-booking { padding: 2px 4px; }
       .cal-booking .cal-booking-name { font-size: 9px; }
       .cal-booking .cal-booking-time { display: none; }
@@ -727,8 +730,22 @@
     // Replace this URL with your deployed Google Apps Script web app URL
     const API_URL = 'https://script.google.com/macros/s/AKfycbxpqr-a6qucPREQsB4xTHclNsTKft0gxGaXi-Jb4-3SIA072txxQ7nC9KZ-piUyGeg/exec';
 
-    const TIME_SLOTS = ['10:00','12:00','14:00','16:00','18:00','20:00'];
-    const TIME_LABELS = ['10 AM','12 PM','2 PM','4 PM','6 PM','8 PM'];
+    const TIME_SLOTS = [
+      '10:00','10:30','11:00','11:30',
+      '12:00','12:30','13:00','13:30',
+      '14:00','14:30','15:00','15:30',
+      '16:00','16:30','17:00','17:30',
+      '18:00','18:30','19:00','19:30',
+      '20:00','20:30','21:00','21:30'
+    ];
+    const TIME_LABELS = [
+      '10:00','','11:00','',
+      '12:00','','1:00','',
+      '2:00','','3:00','',
+      '4:00','','5:00','',
+      '6:00','','7:00','',
+      '8:00','','9:00',''
+    ];
     const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
     let currentWeekStart = getMonday(new Date());
@@ -836,7 +853,8 @@
 
       // Time slot rows
       for (let t = 0; t < TIME_SLOTS.length; t++) {
-        html += '<div class="cal-time">' + TIME_LABELS[t] + '</div>';
+        const isHalf = TIME_SLOTS[t].endsWith(':30');
+        html += '<div class="cal-time' + (isHalf ? ' half' : '') + '">' + TIME_LABELS[t] + '</div>';
 
         for (let d = 0; d < 7; d++) {
           const date = addDays(currentWeekStart, d);
@@ -846,18 +864,22 @@
 
           // Check if this slot is booked
           const booking = findBooking(dateStr, timeStr);
+          // Check if this is the first slot of a booking (to show name)
+          const isFirstSlot = booking && booking.time === timeStr;
 
           if (booking) {
-            html += '<div class="cal-slot booked">';
-            html += '<div class="cal-booking">';
-            html += '<span class="cal-booking-name">' + escapeHtml(booking.name) + '</span>';
-            html += '<span class="cal-booking-time">' + booking.duration + 'h</span>';
-            html += '</div>';
+            html += '<div class="cal-slot booked' + (isHalf ? ' half' : '') + '">';
+            if (isFirstSlot) {
+              html += '<div class="cal-booking">';
+              html += '<span class="cal-booking-name">' + escapeHtml(booking.name) + '</span>';
+              html += '<span class="cal-booking-time">' + booking.duration + 'h</span>';
+              html += '</div>';
+            }
             html += '</div>';
           } else if (past) {
-            html += '<div class="cal-slot past"></div>';
+            html += '<div class="cal-slot past' + (isHalf ? ' half' : '') + '"></div>';
           } else {
-            html += '<div class="cal-slot" onclick="openModal(\'' + dateStr + '\',\'' + timeStr + '\')" title="Click to book"></div>';
+            html += '<div class="cal-slot' + (isHalf ? ' half' : '') + '" onclick="openModal(\'' + dateStr + '\',\'' + timeStr + '\')" title="Click to book"></div>';
           }
         }
       }
@@ -866,14 +888,18 @@
       container.innerHTML = html;
     }
 
+    function timeToMin(t) {
+      const p = t.split(':');
+      return parseInt(p[0]) * 60 + parseInt(p[1] || 0);
+    }
+
     function findBooking(dateStr, timeStr) {
+      const slotMin = timeToMin(timeStr);
       return bookings.find(function(b) {
         if (b.date !== dateStr) return false;
-        // Check if this time slot falls within the booking's time range
-        const slotHour = parseInt(timeStr.split(':')[0]);
-        const bookingHour = parseInt(b.time.split(':')[0]);
-        const bookingDuration = parseInt(b.duration) || 2;
-        return slotHour >= bookingHour && slotHour < bookingHour + bookingDuration;
+        const bookMin = timeToMin(b.time);
+        const bookEnd = bookMin + (parseFloat(b.duration) || 2) * 60;
+        return slotMin >= bookMin && slotMin < bookEnd;
       });
     }
 
@@ -906,20 +932,23 @@
     }
 
     function updateEstimate() {
-      const duration = parseInt(document.getElementById('duration').value) || 2;
+      const duration = parseFloat(document.getElementById('duration').value) || 2;
       document.getElementById('estimate').textContent = 'Estimated: $' + (duration * 20);
     }
 
     function updateDurationOptions(timeStr) {
-      const hour = parseInt(timeStr.split(':')[0]);
-      const maxEnd = 22; // 10 PM
-      const maxDuration = Math.min(4, Math.floor((maxEnd - hour) / 2) * 2);
+      const startMin = timeToMin(timeStr);
+      const endLimit = 22 * 60; // 10 PM
+      const maxHours = Math.min(4, (endLimit - startMin) / 60);
       const select = document.getElementById('duration');
       select.innerHTML = '';
-      for (let h = 2; h <= maxDuration; h++) {
+      // Offer 1h, 1.5h, 2h, 2.5h, 3h, 3.5h, 4h
+      for (let h = 1; h <= maxHours; h += 0.5) {
+        // Skip if it would overlap with an existing booking
         const opt = document.createElement('option');
         opt.value = h;
-        opt.textContent = h + ' hours';
+        opt.textContent = h + (h === 1 ? ' hour' : ' hours');
+        if (h === 2) opt.selected = true;
         select.appendChild(opt);
       }
       updateEstimate();

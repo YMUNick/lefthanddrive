@@ -18,32 +18,56 @@
 
 const SHEET_NAME = 'Sheet1';
 
+function formatDateStr(val) {
+  if (val instanceof Date) {
+    var y = val.getFullYear();
+    var m = ('0' + (val.getMonth() + 1)).slice(-2);
+    var d = ('0' + val.getDate()).slice(-2);
+    return y + '-' + m + '-' + d;
+  }
+  return String(val);
+}
+
+function formatTimeStr(val) {
+  if (val instanceof Date) {
+    var h = ('0' + val.getHours()).slice(-2);
+    var m = ('0' + val.getMinutes()).slice(-2);
+    return h + ':' + m;
+  }
+  var s = String(val);
+  // Handle "14:00:00" -> "14:00"
+  if (s.length > 5) s = s.substring(0, 5);
+  // Handle "2:00 PM" style
+  return s;
+}
+
 function doGet(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-  const data = sheet.getDataRange().getValues();
-  const headers = data[0];
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var data = sheet.getDataRange().getValues();
 
-  const startDate = e.parameter.start || '';
-  const endDate = e.parameter.end || '';
+  var startDate = (e && e.parameter && e.parameter.start) || '';
+  var endDate = (e && e.parameter && e.parameter.end) || '';
 
-  const bookings = [];
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    const date = row[0];
-    if (!date) continue;
+  var bookings = [];
+  for (var i = 1; i < data.length; i++) {
+    var row = data[i];
+    if (!row[0]) continue;
+
+    var dateStr = formatDateStr(row[0]);
+    var timeStr = formatTimeStr(row[1]);
 
     // Filter by date range if provided
-    if (startDate && date < startDate) continue;
-    if (endDate && date > endDate) continue;
+    if (startDate && dateStr < startDate) continue;
+    if (endDate && dateStr > endDate) continue;
 
     bookings.push({
-      date: row[0],
-      time: row[1],
-      duration: row[2],
-      name: row[3],
-      email: row[4],
-      phone: row[5],
-      notes: row[6]
+      date: dateStr,
+      time: timeStr,
+      duration: String(row[2]),
+      name: String(row[3]),
+      email: String(row[4]),
+      phone: String(row[5]),
+      notes: String(row[6])
     });
   }
 
@@ -54,23 +78,34 @@ function doGet(e) {
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    var data = JSON.parse(e.postData.contents);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
 
-    // Check for double booking
-    const existing = sheet.getDataRange().getValues();
-    for (let i = 1; i < existing.length; i++) {
-      if (existing[i][0] === data.date && existing[i][1] === data.time) {
+    // Check for overlapping bookings
+    var existing = sheet.getDataRange().getValues();
+    var newStart = timeToMinutes(data.time);
+    var newEnd = newStart + parseFloat(data.duration) * 60;
+
+    for (var i = 1; i < existing.length; i++) {
+      var rowDate = formatDateStr(existing[i][0]);
+      if (rowDate !== data.date) continue;
+
+      var rowTime = formatTimeStr(existing[i][1]);
+      var rowDuration = parseFloat(existing[i][2]) || 2;
+      var existStart = timeToMinutes(rowTime);
+      var existEnd = existStart + rowDuration * 60;
+
+      if (newStart < existEnd && newEnd > existStart) {
         return ContentService
-          .createTextOutput(JSON.stringify({ success: false, error: 'This slot is already booked.' }))
+          .createTextOutput(JSON.stringify({ success: false, error: 'This slot overlaps with an existing booking.' }))
           .setMimeType(ContentService.MimeType.JSON);
       }
     }
 
     // Add the booking
-    const timestamp = new Date().toISOString();
-    const rate = 20;
-    const amount = parseInt(data.duration) * rate;
+    var timestamp = new Date().toISOString();
+    var rate = 20;
+    var amount = parseFloat(data.duration) * rate;
     sheet.appendRow([
       data.date,
       data.time,
@@ -97,7 +132,6 @@ function doPost(e) {
               'Lefthand Drive'
       });
     } catch (mailErr) {
-      // Email sending is optional, don't fail the booking
       console.log('Email send failed:', mailErr);
     }
 
@@ -110,4 +144,9 @@ function doPost(e) {
       .createTextOutput(JSON.stringify({ success: false, error: err.message }))
       .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function timeToMinutes(timeStr) {
+  var parts = String(timeStr).split(':');
+  return parseInt(parts[0]) * 60 + parseInt(parts[1] || 0);
 }
