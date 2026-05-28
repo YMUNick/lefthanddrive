@@ -16,7 +16,7 @@
  * 11. Paste the URL into booking.html where it says: const API_URL = '';
  */
 
-const SHEET_NAME = 'Sheet1';
+// Uses the first sheet in the spreadsheet (no name dependency)
 
 function formatDateStr(val) {
   if (val instanceof Date) {
@@ -42,7 +42,7 @@ function formatTimeStr(val) {
 }
 
 function doGet(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
   var data = sheet.getDataRange().getValues();
 
   var startDate = (e && e.parameter && e.parameter.start) || '';
@@ -79,7 +79,7 @@ function doGet(e) {
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
     // Check for overlapping bookings
     var existing = sheet.getDataRange().getValues();
