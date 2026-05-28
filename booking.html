@@ -553,6 +553,22 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    .cal-overlay-loading {
+      position: absolute;
+      inset: 0;
+      background: rgba(18,18,18,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--silver);
+      gap: 8px;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
     /* ── FOOTER ────────────────────────────────── */
     .footer {
       padding: 24px 32px;
@@ -831,6 +847,18 @@
         renderCalendar();
         return;
       }
+
+      // Show loading overlay on existing calendar
+      const container = document.getElementById('calendar-container');
+      let loader = document.getElementById('cal-loader');
+      if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'cal-loader';
+        loader.className = 'cal-overlay-loading';
+        loader.innerHTML = '<span class="spinner"></span> Loading...';
+      }
+      container.style.position = 'relative';
+      container.appendChild(loader);
 
       try {
         const weekEnd = addDays(currentWeekStart, 6);
