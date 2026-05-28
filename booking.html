@@ -694,11 +694,12 @@
 
         <div class="form-group">
           <label for="duration">Duration</label>
-          <select id="duration" name="duration" required>
+          <select id="duration" name="duration" required onchange="updateEstimate()">
             <option value="2" selected>2 hours</option>
             <option value="3">3 hours</option>
             <option value="4">4 hours</option>
           </select>
+          <div id="estimate" style="margin-top:8px; font-size:13px; font-weight:700; color:var(--green);">Estimated: $40</div>
         </div>
 
         <div class="form-group">
@@ -724,7 +725,7 @@
   <script>
     // ─── CONFIG ──────────────────────────────────
     // Replace this URL with your deployed Google Apps Script web app URL
-    const API_URL = '';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxpqr-a6qucPREQsB4xTHclNsTKft0gxGaXi-Jb4-3SIA072txxQ7nC9KZ-piUyGeg/exec';
 
     const TIME_SLOTS = ['10:00','12:00','14:00','16:00','18:00','20:00'];
     const TIME_LABELS = ['10 AM','12 PM','2 PM','4 PM','6 PM','8 PM'];
@@ -904,6 +905,11 @@
       updateDurationOptions(timeStr);
     }
 
+    function updateEstimate() {
+      const duration = parseInt(document.getElementById('duration').value) || 2;
+      document.getElementById('estimate').textContent = 'Estimated: $' + (duration * 20);
+    }
+
     function updateDurationOptions(timeStr) {
       const hour = parseInt(timeStr.split(':')[0]);
       const maxEnd = 22; // 10 PM
@@ -916,6 +922,7 @@
         opt.textContent = h + ' hours';
         select.appendChild(opt);
       }
+      updateEstimate();
     }
 
     function closeModal() {

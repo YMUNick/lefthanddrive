@@ -5,7 +5,7 @@
  * 1. Go to https://sheets.google.com and create a new spreadsheet
  * 2. Name it "Rehearsal Room Bookings"
  * 3. In the first row (header), add these columns:
- *    A: Date | B: Time | C: Duration | D: Name | E: Email | F: Phone | G: Notes | H: Timestamp
+ *    A: Date | B: Time | C: Duration | D: Name | E: Email | F: Phone | G: Notes | H: Timestamp | I: Amount
  * 4. Go to Extensions > Apps Script
  * 5. Delete the default code and paste this entire file
  * 6. Click Deploy > New deployment
@@ -69,6 +69,8 @@ function doPost(e) {
 
     // Add the booking
     const timestamp = new Date().toISOString();
+    const rate = 20;
+    const amount = parseInt(data.duration) * rate;
     sheet.appendRow([
       data.date,
       data.time,
@@ -77,7 +79,8 @@ function doPost(e) {
       data.email,
       data.phone || '',
       data.notes || '',
-      timestamp
+      timestamp,
+      amount
     ]);
 
     // Send confirmation email
