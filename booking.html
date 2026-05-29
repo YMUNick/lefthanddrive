@@ -324,6 +324,39 @@
       font-size: 12px;
     }
 
+    .cal-band-time {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      z-index: 1;
+      background: rgba(243,114,127,0.1);
+      border: 1px solid rgba(243,114,127,0.4);
+      border-radius: 6px;
+      padding: 8px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--neg);
+      line-height: 1.3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .cal-band-time .cal-band-label {
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    .cal-slot.band-reserved {
+      cursor: default;
+    }
+
+    .cal-slot.band-reserved:hover { background: transparent; }
+
     .cal-booking .cal-booking-time {
       font-size: 10px;
       color: rgba(30,215,96,0.7);
@@ -904,8 +937,13 @@
 
           // Check if this slot is booked
           const booking = findBooking(dateStr, timeStr);
-          // Check if this is the first slot of a booking (to show name)
           const isFirstSlot = booking && booking.time === timeStr;
+
+          // Check if this is Thursday band time (20:00-00:00)
+          const isThursday = date.getDay() === 4;
+          const slotMin = timeToMin(timeStr);
+          const isBandTime = isThursday && slotMin >= timeToMin('20:00') && slotMin < timeToMin('24:00');
+          const isBandFirst = isBandTime && timeStr === '20:00';
 
           if (booking) {
             html += '<div class="cal-slot booked' + (isHalf ? ' half' : '') + '">';
@@ -915,6 +953,17 @@
               html += '<div class="cal-booking" style="height:' + heightCalc + '">';
               html += '<span class="cal-booking-name">' + escapeHtml(booking.name) + '</span>';
               html += '<span class="cal-booking-time">' + booking.duration + 'h</span>';
+              html += '</div>';
+            }
+            html += '</div>';
+          } else if (isBandTime) {
+            html += '<div class="cal-slot band-reserved' + (isHalf ? ' half' : '') + '">';
+            if (isBandFirst) {
+              const bandSlots = 8; // 20:00-00:00 = 4hrs = 8 half-hour slots
+              const heightCalc = 'calc(' + (bandSlots * 100) + '% + ' + (bandSlots - 1) + 'px)';
+              html += '<div class="cal-band-time" style="height:' + heightCalc + '">';
+              html += '<span>Lefthand Drive</span>';
+              html += '<span class="cal-band-label">Band Time</span>';
               html += '</div>';
             }
             html += '</div>';
