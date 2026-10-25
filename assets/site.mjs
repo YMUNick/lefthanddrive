@@ -48,7 +48,7 @@ document.addEventListener('keydown', event => {
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   }
 });
-window.matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+window.matchMedia('(min-width:1101px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 
 const statusLabels={past:['Past','已演出'],today:['Today','今日演出'],upcoming:['Upcoming','即將演出'],announced:['Date TBC','日期待確認']};
 const today=singaporeDate();

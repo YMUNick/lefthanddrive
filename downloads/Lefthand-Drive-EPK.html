@@ -39,6 +39,7 @@ svg{width:20px;height:20px;flex-shrink:0}
 .desktop-nav a:hover:after,.desktop-nav a[aria-current=page]:after{transform:scaleX(1)}
 .language-toggle{border:1px solid var(--line);background:transparent;padding:8px 12px;min-height:44px;font-size:12px;white-space:nowrap}
 .language-toggle:hover{border-color:var(--accent)}
+.header-booking{white-space:nowrap;flex-shrink:0;padding:11px 16px;gap:12px;min-height:44px}
 .menu-toggle{display:none;border:1px solid var(--line);background:transparent;min-width:44px;min-height:44px}
 .mobile-nav{display:none}
 .hero{padding-top:46px;padding-bottom:40px}
@@ -128,6 +129,21 @@ svg{width:20px;height:20px;flex-shrink:0}
 .contact-mail{display:flex;align-items:center;justify-content:space-between;gap:25px;padding-block:30px;margin-top:35px;border-bottom:1px solid var(--line);font-size:clamp(17px,3vw,40px);overflow-wrap:anywhere}
 .contact-mail svg{width:36px;height:36px;color:var(--accent)}
 .contact-mail:hover{color:var(--accent)}
+.rehearsal-section{background:var(--accent);color:var(--dark);padding-block:70px}
+.rehearsal-grid{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:70px}
+.rehearsal-section h2{font-size:clamp(62px,7.5vw,112px);max-width:650px;margin-top:24px}
+.rehearsal-copy{max-width:490px;margin-top:26px;font-size:16px}
+.rehearsal-card{border:1px solid var(--dark);padding:34px}
+.rehearsal-card h3{font-size:23px}
+.rehearsal-facts{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:28px 0 22px}
+.rehearsal-facts dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.rehearsal-facts dd{font-size:32px;font-family:var(--display);font-weight:600;margin:8px 0 0;line-height:1.2}
+.rehearsal-facts dd span{font-size:18px}
+.rehearsal-card>p{font-size:14px}
+.rehearsal-cta{background:var(--dark);border-color:var(--dark);color:var(--ink);width:100%;margin-top:25px;justify-content:space-between}
+.rehearsal-cta:hover{border-color:var(--dark);background:var(--paper);color:var(--dark)}
+.rehearsal-cta:focus-visible{outline-color:var(--dark)}
+.rehearsal-card .rehearsal-location{margin-top:16px;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
 .site-footer{border-top:1px solid var(--line);padding-block:24px;font-size:11px;color:var(--muted)}
 .footer-inner{display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap}
 .footer-links{display:flex;gap:22px;flex-wrap:wrap}
@@ -367,6 +383,36 @@ html.bilingual .epk-section h2{font-size:clamp(30px,4.5vw,48px);line-height:1.2}
 
 @media(min-width:761px) and (max-width:1100px){.epk-layout .show-row{grid-template-columns:105px minmax(0,1fr) 80px 65px;gap:12px}
 .epk-layout .show-venue{font-size:15px}
+}
+
+/* Keep rehearsal booking visible outside the collapsible menu. */
+@media(max-width:1100px){
+ .desktop-nav{display:none}
+ .header-inner{gap:16px}
+ .wordmark{margin-right:auto}
+ .menu-toggle{display:grid;place-items:center}
+ .mobile-nav:not([hidden]){display:flex;position:absolute;top:100%;left:0;right:0;max-height:calc(100dvh - 94px);overflow-y:auto;background:var(--bg);border-bottom:1px solid var(--line);padding:25px var(--gutter);flex-direction:column;gap:5px}
+ .mobile-nav a{font-family:var(--display);text-transform:uppercase;font-size:30px;min-height:52px;padding-block:8px}
+ .rehearsal-grid{gap:35px}
+ .rehearsal-card{padding:26px}
+}
+@media(max-width:760px){
+ .rehearsal-section{padding-block:48px}
+ .rehearsal-grid{grid-template-columns:1fr;gap:30px}
+ .rehearsal-section h2{font-size:70px}
+ .rehearsal-card{padding:24px}
+ html[lang=zh-Hant] .rehearsal-section h2{font-size:44px}
+}
+@media(max-width:600px){
+ .site-header{height:auto}
+ .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;padding-block:14px}
+ .wordmark{grid-column:1;grid-row:1;font-size:22px;gap:7px}
+ .wordmark small{font-size:8px;letter-spacing:.15em}
+ .brand-symbol{font-size:29px}
+ .language-toggle{grid-column:2;grid-row:1}
+ .menu-toggle{grid-column:3;grid-row:1}
+ .header-booking{grid-column:1/-1;grid-row:2;justify-content:space-between}
+ .mobile-nav:not([hidden]){max-height:calc(100dvh - 128px)}
 }
 
 .epk-layout{display:block}.no-print,.epk-sidebar{display:none!important}.page-hero h1{font-size:clamp(65px,10vw,120px)}.wrap{max-width:1100px}</style></head><body><main id="main"><div class="wrap"><section class="page-hero"><p class="eyebrow">LEFTHAND DRIVE / <span lang="en" data-lang="en">Electronic press kit</span><span lang="zh-Hant" data-lang="zh-Hant">樂團媒體資料包</span></p><h1><span lang="en" data-lang="en">THE PRESS KIT.</span><span lang="zh-Hant" data-lang="zh-Hant">樂團資料包。</span></h1><p class="lead"><span lang="en" data-lang="en">Music, people and everything behind the stage. An introduction for festivals, venues, collaborators and press.</span><span lang="zh-Hant" data-lang="zh-Hant">音樂、團員，以及舞台背後的準備。給音樂節、場館、合作夥伴與媒體的完整介紹。</span></p><div class="actions no-print"><button type="button" class="button" data-print><span lang="en" data-lang="en">Print / Save as PDF</span><span lang="zh-Hant" data-lang="zh-Hant">列印／另存 PDF</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v13m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></button></div><p class="micro muted" style="margin-top:22px"><span lang="en" data-lang="en">English + Traditional Chinese · Updated</span><span lang="zh-Hant" data-lang="zh-Hant">英文＋繁體中文・更新日期</span> 2026-10-26</p></section>
