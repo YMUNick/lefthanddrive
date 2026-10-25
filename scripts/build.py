@@ -1,6 +1,7 @@
 """Build the dependency-free GitHub Pages site and portable press kit."""
 import base64
 import html
+import hashlib
 import json
 import mimetypes
 from pathlib import Path
@@ -9,6 +10,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / 'content/band.json').read_text(encoding='utf-8'))
+ASSET_VERSION = hashlib.sha256(b''.join((ROOT / path).read_bytes() for path in ['assets/site.css', 'assets/site.mjs', 'assets/core.mjs'])).hexdigest()[:12]
 
 
 def esc(value):
@@ -69,9 +71,9 @@ def shell(title, description, body, current='home'):
 <link rel="canonical" href="{url}"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{DATA['website']}images/group.jpg"><meta property="og:image:alt" content="Lefthand Drive, five-piece rock band from Singapore"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css"><script type="application/ld+json">{json.dumps(structured,ensure_ascii=False)}</script>
+<link rel="stylesheet" href="assets/site.css?v={ASSET_VERSION}"><script type="application/ld+json">{json.dumps(structured,ensure_ascii=False)}</script>
 </head><body>{header(current)}<noscript><style>.menu-toggle,.language-toggle{{display:none!important}}</style><nav class="no-js-note no-js-nav" aria-label="Navigation without JavaScript"><a href="index.html#music">Music</a> · <a href="index.html#live">Live</a> · <a href="band.html">Band</a> · <a href="index.html#shows">Shows</a> · <a href="epk.html">EPK</a> · <a href="index.html#contact">Contact</a><br><a href="downloads/Lefthand-Drive-EPK.html">Bilingual printable EPK / 中英文資料包</a></nav></noscript>{body}{footer()}
-<script type="application/json" id="band-data">{json.dumps(DATA,ensure_ascii=False).replace('<','&lt;')}</script><script type="module" src="assets/site.mjs"></script></body></html>'''
+<script type="application/json" id="band-data">{json.dumps(DATA,ensure_ascii=False).replace('<','&lt;')}</script><script type="module" src="assets/site.mjs?v={ASSET_VERSION}"></script></body></html>'''
 
 
 def socials():
