@@ -15,10 +15,27 @@ function setLanguage(value) {
   }
   const menu = document.querySelector('.menu-toggle');
   if (menu) menu.setAttribute('aria-label', language === 'en' ? 'Open navigation' : '開啟導覽');
+  const motionToggle = document.querySelector('[data-marquee-toggle]');
+  if (motionToggle) {
+    const paused = motionToggle.getAttribute('aria-pressed') === 'true';
+    motionToggle.setAttribute('aria-label', language === 'en' ? (paused ? 'Resume text animation' : 'Pause text animation') : (paused ? '繼續文字動畫' : '暫停文字動畫'));
+  }
   try { localStorage.setItem(storageKey, language); } catch { /* Content remains usable in private modes. */ }
 }
 setLanguage(language);
 toggle?.addEventListener('click', () => setLanguage(language === 'en' ? 'zh-Hant' : 'en'));
+
+const motionToggle = document.querySelector('[data-marquee-toggle]');
+if (motionToggle) {
+  const marquee = motionToggle.closest('.marquee');
+  motionToggle.hidden = false;
+  marquee.classList.add('is-animated');
+  motionToggle.addEventListener('click', () => {
+    const paused = marquee.classList.toggle('is-paused');
+    motionToggle.setAttribute('aria-pressed', String(paused));
+    motionToggle.setAttribute('aria-label', language === 'en' ? (paused ? 'Resume text animation' : 'Pause text animation') : (paused ? '繼續文字動畫' : '暫停文字動畫'));
+  });
+}
 
 const menuButton = document.querySelector('.menu-toggle');
 const mobileMenu = document.querySelector('#mobile-menu');
