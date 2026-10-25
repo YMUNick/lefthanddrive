@@ -1,0 +1,56 @@
+{
+  "name": "Lefthand Drive",
+  "location": "Singapore",
+  "formed": "2023",
+  "email": "mrwaitforplayers@gmail.com",
+  "updated": "2026-10-26",
+  "website": "https://ymunick.github.io/lefthanddrive/",
+  "socials": {
+    "Instagram": "https://www.instagram.com/lefthanddrive_sg/",
+    "YouTube": "https://www.youtube.com/@LefthandDrive_SG",
+    "Spotify": "https://open.spotify.com/artist/1GsjKjGcnN87QtZpG9kql0",
+    "Facebook": "https://www.facebook.com/profile.php?id=61557159800203"
+  },
+  "bio": {
+    "short_en": "Lefthand Drive is a five-piece rock band based in Singapore. Formed in 2023, the band brings together musicians from different international backgrounds through vocals, two guitars, bass and drums. Their released single Paradise and live performances introduce a shared rock sound shaped by five individual perspectives.",
+    "short_zh": "Lefthand Drive 是一支以新加坡為基地的五人搖滾樂團，成立於 2023 年。來自不同國際背景的團員，以主唱、雙吉他、貝斯與鼓交織出共同的搖滾聲音。已發行單曲〈Paradise〉及現場演出，呈現五位音樂人各自的觀點與默契。",
+    "long_en": "Formed in Singapore in 2023, Lefthand Drive brings five musicians with different international backgrounds into one rock band. Nick fronts the group on vocals, with CY and Julian on guitars, Wei Liang on bass and Vijay on drums. The band's identity grows out of that meeting of perspectives: a shared commitment to making music together and bringing it to a live audience.\n\nTheir released single Paradise offers a starting point for discovering the band. Documented performances include Phil Studio and Venom in Singapore, and Julian’s Friends in Cambodia. Lefthand Drive welcomes conversations with venues, festival programmers and artists about performances and cross-border collaboration.",
+    "long_zh": "Lefthand Drive 於 2023 年在新加坡成立，由五位擁有不同國際背景的音樂人組成。Nick 擔任主唱，CY 與 Julian 負責吉他，Wei Liang 擔任貝斯手，Vijay 擔任鼓手。樂團的個性來自不同觀點的相遇，以及一起創作、把音樂帶到現場觀眾面前的共同投入。\n\n已發行單曲〈Paradise〉是認識樂團的起點。現有演出紀錄包括新加坡的 Phil Studio、Venom，以及柬埔寨的 Julian’s Friends。樂團歡迎場館、音樂節策展人及音樂人洽談演出與跨國合作。"
+  },
+  "members": [
+    {"name":"Nick", "role_en":"Vocals", "role_zh":"主唱", "photo":"images/Nick.jpg"},
+    {"name":"CY", "role_en":"Guitar", "role_zh":"吉他", "photo":"images/CY.jpg"},
+    {"name":"Julian", "role_en":"Guitar", "role_zh":"吉他", "photo":"images/Julian.jpg"},
+    {"name":"Wei Liang", "role_en":"Bass", "role_zh":"貝斯", "photo":"images/wei.jpeg"},
+    {"name":"Vijay", "role_en":"Drums", "role_zh":"鼓", "photo":"images/Vijay.jpg"}
+  ],
+  "tracks": [
+    {"title":"Paradise", "url":"https://open.spotify.com/track/0d3qWfMjt3fZFFHP6RL3d5", "status":"published"},
+    {"title":null, "url":null, "status":"pending"},
+    {"title":null, "url":null, "status":"pending"}
+  ],
+  "videos": [
+    {"id":"LCzkbeM5O3M", "title":"Live at Phil Studio", "title_zh":"Phil Studio 現場", "note_en":"7 December 2024 · Singapore", "note_zh":"2024 年 12 月 7 日・新加坡"},
+    {"id":"tLV0B2nNNFU", "title":"9 October 2026", "title_zh":"9 October 2026", "note_en":"Band-selected footage · YouTube title", "note_zh":"樂團提供的影像・標題依 YouTube 顯示"}
+  ],
+  "shows": [
+    {"date":"2026-05-23", "venue":"Coastal At Rhythm", "country":"Singapore", "country_zh":"新加坡"},
+    {"date":"2026-04-11", "venue":"Venom", "country":"Singapore", "country_zh":"新加坡"},
+    {"date":"2025-10", "venue":"Julian’s Friends", "country":"Cambodia", "country_zh":"柬埔寨"},
+    {"date":"2025-06-28", "venue":"Phil Studio", "country":"Singapore", "country_zh":"新加坡"}
+  ],
+  "technical": {
+    "confirmed": false,
+    "lineup_en":"Lead vocals / two guitars / bass / drums",
+    "lineup_zh":"主唱／雙吉他／貝斯／鼓",
+    "note_en":"The lineup is confirmed. The stage layout and equipment below are a discussion draft, not a final technical rider. Confirm backline, inputs, monitor mixes, power, soundcheck and set duration directly with the band before contracting or hiring equipment.",
+    "note_zh":"演出編制已確認。以下舞台配置與設備為討論草案，並非正式技術需求表。簽約或租借器材前，請與樂團確認現場器材、輸入通道、監聽、電源、試音與演出長度。",
+    "items": [
+      {"en":"Vocal microphone, stand and vocal monitoring", "zh":"主唱麥克風、麥架與人聲監聽"},
+      {"en":"Two guitar positions; amplification or direct-feed setup to be agreed", "zh":"兩個吉他位置；音箱或直出方式待議"},
+      {"en":"Bass position; amplifier and/or DI setup to be agreed", "zh":"貝斯位置；音箱及／或 DI 配置待議"},
+      {"en":"Drum kit and drum-microphone requirements to be agreed", "zh":"鼓組及收音麥克風需求待議"},
+      {"en":"PA, monitors, stage power and local sound engineer to be agreed", "zh":"擴聲、監聽、舞台電源與現場音控待議"}
+    ]
+  }
+}
